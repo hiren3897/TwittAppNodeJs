@@ -9,6 +9,9 @@ const exphbs = require('express-handlebars');
 const twsRouter = require('./routes/web/tws');
 const twsApiRouter = require('./routes/api/tws');
 
+const connectDB = require('./middelwares/db');
+connectDB();
+
 const app = express();
 
 app.use(morgan('dev'));
