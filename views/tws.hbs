@@ -1,7 +1,30 @@
-<h1>List of Twitters</h1>
+<h1 class="title">Vos twitts</h1>
 
-<ul>
+<div class="jumbotron">
+  <div class="container">
+    <form>
+      <div class="form-group">
+        <label for="addTw">Ajouter un twitt</label>
+        <textarea class="form-control" id="addTw" rows="3"></textarea>
+      </div>
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="#" role="button">Ajouter</a>
+      </p>
+    </form>
+    </div>
+</div>
+
+<div class="card-columns">
   {{#each tws}}
-    <li>{{{this.message}}}</li>
+    <div class="card">
+      <div class="card-body">
+        <p class="card-text">{{{this.message}}}</p>
+          <footer class="blockquote-footer">
+            <small class="text-muted">
+              {{{ formatDate this.createdAt }}}
+            </small>
+          </footer>
+      </div>
+    </div>
   {{/each}}
-</ul>
+</div>

@@ -4,26 +4,41 @@ const mongoose = require('mongoose');
 const Router = express.Router();
 
 const Tw = require('../../models/Tw');
-const testMiddleware = require('../../middelwares/test');
 
-var tws = [];
-
-Router.get('/', testMiddleware, (req, res) => {
-    // res.status(200).send('GET Tws');
-    res.status(200).json(tws);
+// This is the route to have all the tws
+Router.get('/', (req, res) => {
+    Tw.find()
+        .lean()
+        .exec()
+        .then(tws => {
+            res.status(200).json(tws);
+        })
+        .catch(err => {
+            error = err;
+            console.error(error);
+        });
 })
 
+// this is the route to have one specific tw
 Router.get('/:twId', (req, res) => {
     twId = req.params.twId;
 
-    tw = tws.filter((tw) => {
-        return tw.id == twId;
-    });
-
-    // res.status(200).send('GET Tw Id: ' + twId);
-    res.status(200).json(tw);
+    Tw.find({
+        _id: twId
+    })
+        .lean()
+        .exec()
+        .then(tw => {
+            res.status(200).json(tw);
+        })
+        .catch(err => {
+            error = err;
+            console.error(error);
+        });
 })
 
+
+//this is the route to create a tw
 Router.post('/', (req, res) => {
     console.log(req.body.message);
     
@@ -45,27 +60,44 @@ Router.post('/', (req, res) => {
     }
 })
 
+// this is the route to delete a tw
 Router.delete('/:twId', (req, res) => {
     twId = req.params.twId;
 
-    tws = tws.filter((tw) => {
-        return tw.id != twId;
+    Tw.remove({
+        _id: twId
     })
-
-    res.status(200).json(tws);
+        .exec()
+        .then(result => {
+            res.status(200).json({ 'message': 'Suppression du twitt !' });
+        })
+        .catch(err => {
+            error = err;
+            console.error(error);
+        });
 })
 
+// this is the route to update a tw
 Router.patch('/:twId', (req, res) => {
     twId = req.params.twId;
     message = req.body.message;
 
-    tws.filter((tw) => {
-        if (tw.id == twId) {
-            tw.message = message
-        }
-    });
-
-    res.status(200).json(tws);
+    if (req.body.message && req.body.message != "") {
+        Tw.update({ _id: twId }, {
+                $set: {
+                    message: req.body.message,
+                }
+            })
+            .exec()
+            .then(tw => {
+                res.status(200).json(tw);
+            })
+            .catch(err => {
+                res.status(500).json({ error: err });
+            });
+    } else {
+        res.status(500).json({ error: 'Merci de remplire tous les champs' });
+    }
 })
 
 module.exports = Router;
