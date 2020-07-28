@@ -10,3 +10,14 @@ h1.title {
 .jumbotron {
     width: 100%;
 }
+
+.alert {
+    width: 100%;
+}
+
+.tools {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+}
