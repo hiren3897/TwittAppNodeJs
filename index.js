@@ -56,8 +56,8 @@ app.use((req, res, next) => {
     next(error);
 });
 
-app.listen(process.env.PORT, function() {
-    console.log('Server running on localhost:' + process.env.PORT);
+app.listen(3001, function() {
+    console.log('Server running on localhost:');
 });
 
 // connectDB.close();
