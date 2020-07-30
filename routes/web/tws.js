@@ -97,7 +97,6 @@ Router.post('/', (req, res) => {
                 res.status(500).json({error: err});    
             })
     } else {
-        // res.status(500).json({error: "Please put some values"});
         res.redirect('/tws/danger/Please put some value');
     }
 })
@@ -114,15 +113,13 @@ Router.post('/update/:twId', (req, res) => {
             })
             .exec()
             .then(tw => {
-                res.redirect('/tws/success/Tw well updated');
+                res.redirect('/tws/success/ Your Twiit Updated');
             })
             .catch(err => {
-                // res.status(500).json({ error: err });
-                res.redirect('/tws/danger/'+err);
+                res.redirect('/tws/danger/'+ err);
             });
     } else {
-        // res.status(500).json({ error: 'Merci de remplire tous les champs' });
-        res.redirect('/tws/danger/Please put some value');
+        res.redirect('/tws/danger/Please Enter some value');
     }
 })
 
